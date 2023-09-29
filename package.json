@@ -1,0 +1,24 @@
+{
+  "name": "darn-thirsty-api",
+  "version": "1.0.0",
+  "description": "Darn Thirsty's .NET API",
+  "scripts": {
+    "start": "dotnet run --project ./src/DarnThirsty.Api/",
+    "build": "dotnet build ./src/DarnThirsty.Api/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustavodasilva-dotcom/darn-thirsty-api.git"
+  },
+  "keywords": [
+    "api",
+    "dotnet",
+    "webapi"
+  ],
+  "author": "Gustavo Aquino da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gustavodasilva-dotcom/darn-thirsty-api/issues"
+  },
+  "homepage": "https://github.com/gustavodasilva-dotcom/darn-thirsty-api#readme"
+}
