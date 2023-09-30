@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DarnThirsty.Core\DarnThirsty.Core.csproj" />
+    <ProjectReference Include="..\DarnThirsty.Tools\DarnThirsty.Tools.csproj" />
   </ItemGroup>
 
   <ItemGroup>

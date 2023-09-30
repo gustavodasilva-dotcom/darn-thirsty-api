@@ -18,10 +18,17 @@ public class AccountController : ControllerBase
         _accountHandler = accountHandler;
     }
 
-    [HttpGet("auth")]
+    [HttpPost("auth")]
     public async Task<IActionResult> Get([FromBody] FirstAccessRequest request)
     {
-        await _accountHandler.ExecuteFirstAccess(request);
-        return Ok();
+        try
+        {
+            await _accountHandler.ExecuteFirstAccess(request);
+            return StatusCode(201);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
     }
 }

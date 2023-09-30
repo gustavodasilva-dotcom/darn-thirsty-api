@@ -4,8 +4,11 @@ using DarnThirsty.Core.Data;
 using DarnThirsty.Core.Repositories;
 using DarnThirsty.Infrastructure.Data;
 using DarnThirsty.Infrastructure.Repositories;
+using DarnThirsty.Tools.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Settings.Configuration = builder.Configuration;
 
 builder.Services.AddScoped<IAccountHandler, AccountHandler>();
 builder.Services.AddScoped<IMongoContext, MongoContext>();
