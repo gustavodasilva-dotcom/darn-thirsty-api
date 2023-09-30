@@ -1,6 +1,15 @@
+using DarnThirsty.Application.Handlers;
+using DarnThirsty.Application.Interfaces.Handlers;
+using DarnThirsty.Core.Data;
+using DarnThirsty.Core.Repositories;
+using DarnThirsty.Infrastructure.Data;
+using DarnThirsty.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddScoped<IAccountHandler, AccountHandler>();
+builder.Services.AddScoped<IMongoContext, MongoContext>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
