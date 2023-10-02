@@ -13,6 +13,7 @@ Settings.Configuration = builder.Configuration;
 builder.Services.AddScoped<IAccountHandler, AccountHandler>();
 builder.Services.AddScoped<IMongoContext, MongoContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IDrinkRepository, DrinkRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

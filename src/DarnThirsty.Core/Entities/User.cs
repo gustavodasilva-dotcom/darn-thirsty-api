@@ -1,11 +1,9 @@
-using MongoDB.Bson;
+using DarnThirsty.Core.Entities.Base;
 
 namespace DarnThirsty.Core.Entities;
 
-public class User
+public class User : Entity
 {
-    public ObjectId id { get; set; }
-
     public string name { get; set; }
 
     public string email { get; set; }
