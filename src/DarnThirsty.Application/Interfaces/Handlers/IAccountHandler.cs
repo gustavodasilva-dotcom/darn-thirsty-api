@@ -4,5 +4,6 @@ namespace DarnThirsty.Application.Interfaces.Handlers;
 
 public interface IAccountHandler
 {
-    Task ExecuteFirstAccess(FirstAccessRequest firstAccessRequest);   
+    Task ExecuteFirstAccessAsync(UserAccountRequest userAccountRequest);
+    Task<string> ExecuteAuthAsync(UserAccountRequest userAccountRequest);
 }

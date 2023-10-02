@@ -3,6 +3,7 @@ using DarnThirsty.Core.Entities;
 using DarnThirsty.Core.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace DarnThirsty.Infrastructure.Repositories;
 
@@ -20,9 +21,14 @@ public class UserRepository : IUserRepository
         return await _mongoContext.Users.Find(u => true).Skip(skip).Limit(limit).ToListAsync();
     }
 
-    public Task<User> GetById(ObjectId id)
+    public async Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> expression)
     {
-        return _mongoContext.Users.FindSync(u => u.id.Equals(id)).FirstOrDefaultAsync();
+        return await _mongoContext.Users.Find(expression).ToListAsync();
+    }
+
+    public Task<User> Get(Expression<Func<User, bool>> expression)
+    {
+        return _mongoContext.Users.FindSync(expression).FirstOrDefaultAsync();
     }
 
     public Task<bool> Exists(string email)

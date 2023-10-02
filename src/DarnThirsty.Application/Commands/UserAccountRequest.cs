@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DarnThirsty.Application.Commands;
 
-public class FirstAccessRequest
+public class UserAccountRequest
 {
     [Required]
     [JsonProperty("email")]
