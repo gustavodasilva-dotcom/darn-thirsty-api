@@ -5,7 +5,8 @@
   "scripts": {
     "start": "dotnet run --project ./src/DarnThirsty.Api/",
     "build": "dotnet build ./src/DarnThirsty.Api/",
-    "hotreload": "dotnet run --lauch-profile hotreloadprofile --project ./src/DarnThirsty.Api/"
+    "hotreload": "dotnet run --lauch-profile hotreloadprofile --project ./src/DarnThirsty.Api/",
+    "clean": "dotnet clean"
   },
   "repository": {
     "type": "git",

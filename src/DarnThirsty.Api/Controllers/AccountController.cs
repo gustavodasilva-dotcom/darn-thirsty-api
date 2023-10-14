@@ -6,6 +6,7 @@ namespace DarnThirsty.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class AccountController : ControllerBase
 {
     private readonly ILogger<AccountController> _logger;
@@ -19,29 +20,20 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("register/first-access")]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(409)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> RegisterFirstAccess([FromBody] UserAccountRequest request)
     {
-        try
-        {
-            await _accountHandler.ExecuteFirstAccessAsync(request);
-            return StatusCode(201);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        await _accountHandler.ExecuteFirstAccessAsync(request);
+        return StatusCode(201);
     }
 
     [HttpPost("auth")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(500)]
     public async Task<IActionResult> Auth([FromBody] UserAccountRequest request)
     {
-        try
-        {
-            return Ok(await _accountHandler.ExecuteAuthAsync(request));
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
+        return Ok(await _accountHandler.ExecuteAuthAsync(request));
     }
 }

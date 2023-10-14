@@ -5,30 +5,33 @@ namespace DarnThirsty.Infrastructure.Data.Seeders;
 
 public static class DrinkTypesSeeder
 {
-	public static async Task RunAsync(IMongoCollection<DrinkType> drinkTypesCollection)
+	public static void Run(IMongoCollection<DrinkType> drinkTypesCollection)
 	{
 		try
 		{
-			async Task Seed(string _name)
+			void Seed(string _name)
 			{
-				if (await drinkTypesCollection.FindSync(t => t.name.Equals(_name)).FirstOrDefaultAsync() == null)
+				var drinkType = drinkTypesCollection.FindSync(t => t.name.Equals(_name)).FirstOrDefault();
+
+				if (drinkType == null)
 				{
-					await drinkTypesCollection.InsertOneAsync(new DrinkType
+					drinkType = new DrinkType
 					{
 						name = _name
-					});
+					};
+
+					drinkTypesCollection.InsertOne(drinkType);
 				}
 			}
 
-			await Seed("Beers");
-			await Seed("Wines");
-			await Seed("Distilled");
-			await Seed("Cocktail");
+			Seed("Beers");
+			Seed("Wines");
+			Seed("Distilled");
+			Seed("Cocktail");
 		}
 		catch (Exception e)
 		{
-			Console.WriteLine(string.Format("The following error occurred at {0}: {1}",
-				nameof(RunAsync), e.Message));
+			throw new Exception(string.Format("{0} - : {1}", nameof(DrinkTypesSeeder), e.Message));
 		}
 	}
 }

@@ -49,7 +49,7 @@ public class AccountHandler : IAccountHandler
     public async Task ExecuteFirstAccessAsync(UserAccountRequest userAccountRequest)
     {
         if (await _userRepository.Exists(userAccountRequest.Email))
-            throw new DuplicatedEntityException(userAccountRequest.Email);
+            throw new ConflictException(userAccountRequest.Email);
 
         await _userRepository.Save(new User
         {
