@@ -1,4 +1,5 @@
 using System.Text.Json;
+using DarnThirsty.Application.Commands;
 using DarnThirsty.Core.Exceptions;
 
 namespace DarnThirsty.Api.Middlewares;
@@ -37,10 +38,10 @@ public class ExceptionMiddleware
         else
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-        var response = new
+        var response = new ExceptionResponse
         {
-            message = exception.Message,
-            status_code = context.Response.StatusCode
+            status_code = context.Response.StatusCode,
+            message = exception.Message
         };
 
         var json = JsonSerializer.Serialize(response);

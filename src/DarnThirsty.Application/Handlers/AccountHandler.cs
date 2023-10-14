@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 
 namespace DarnThirsty.Application.Handlers;
 
@@ -59,14 +60,35 @@ public class AccountHandler : IAccountHandler
         });
     }
 
-    public async Task<string> ExecuteAuthAsync(UserAccountRequest userAccountRequest)
+    public async Task<string> ExecuteAuthAsync(UserAccountRequest request)
     {
-        var user = await _userRepository.Get(u => u.email.Equals(userAccountRequest.Email.Trim())) ??
-            throw new NotFoundException(userAccountRequest.Email);
+        var user = await _userRepository.Get(u => u.email.Equals(request.Email.Trim())) ??
+            throw new NotFoundException(request.Email);
 
-        if (!user.password.DecryptString().Equals(userAccountRequest.Password.Trim()))
+        if (!user.password.DecryptString().Equals(request.Password.Trim()))
             throw new UnauthorizedException("The password informed is incorrect");
 
         return CreateToken(user);
+    }
+
+    public async Task<User> ExecuteUpdateAsync(string userId, UserRequest request)
+    {
+        var _userId = ObjectId.Parse(userId);
+
+        var user = await _userRepository.Get(u => u.id == _userId) ??
+            throw new NotFoundException(userId.ToString());
+
+        if (await _userRepository.Exists(u => u.email == request.Email.Trim()
+                                           && u.id != _userId))
+            throw new ConflictException(request.Email.Trim());
+
+        user.name = request.Name.Trim();
+        user.email = request.Email.Trim();
+        user.password = request.Password.Trim().EncryptString();
+        user.active = request.Active;
+
+        await _userRepository.Update(user);
+
+        return await _userRepository.Get(u => u.id == _userId);
     }
 }

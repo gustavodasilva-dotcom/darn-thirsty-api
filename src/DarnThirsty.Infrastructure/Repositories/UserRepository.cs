@@ -36,6 +36,11 @@ public class UserRepository : IUserRepository
         return _mongoContext.Users.FindSync(u => u.email.Equals(email)).AnyAsync();
     }
 
+    public Task<bool> Exists(Expression<Func<User, bool>> expression)
+    {
+        return _mongoContext.Users.FindSync(expression).AnyAsync();
+    }
+
     public async Task Save(User user)
     {
         await _mongoContext.Users.InsertOneAsync(user);

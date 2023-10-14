@@ -10,6 +10,7 @@ public interface IUserRepository
     Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> expression);
     Task<User> Get(Expression<Func<User, bool>> expression);
     Task<bool> Exists(string email);
+    Task<bool> Exists(Expression<Func<User, bool>> expression);
     Task Save(User user);
     Task Update(User user);
     Task Delete(ObjectId id);
