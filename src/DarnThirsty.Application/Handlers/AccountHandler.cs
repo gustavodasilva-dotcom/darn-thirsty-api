@@ -1,4 +1,4 @@
-using DarnThirsty.Application.Commands;
+using DarnThirsty.Application.Commands.Account;
 using DarnThirsty.Application.Interfaces.Handlers;
 using DarnThirsty.Core.Entities;
 using DarnThirsty.Core.Exceptions;
@@ -47,7 +47,7 @@ public class AccountHandler : IAccountHandler
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public async Task ExecuteFirstAccessAsync(UserAccountRequest userAccountRequest)
+    public async Task ExecuteFirstAccessAsync(AccountRequest userAccountRequest)
     {
         if (await _userRepository.Exists(userAccountRequest.Email))
             throw new ConflictException(userAccountRequest.Email);
@@ -60,7 +60,7 @@ public class AccountHandler : IAccountHandler
         });
     }
 
-    public async Task<string> ExecuteAuthAsync(UserAccountRequest request)
+    public async Task<string> ExecuteAuthAsync(AccountRequest request)
     {
         var user = await _userRepository.Get(u => u.email.Equals(request.Email.Trim())) ??
             throw new NotFoundException(request.Email);
@@ -71,7 +71,7 @@ public class AccountHandler : IAccountHandler
         return CreateToken(user);
     }
 
-    public async Task<User> ExecuteUpdateAsync(string userId, UserRequest request)
+    public async Task<UserResponse> ExecuteUpdateAsync(string userId, UserRequest request)
     {
         var _userId = ObjectId.Parse(userId);
 
@@ -89,6 +89,15 @@ public class AccountHandler : IAccountHandler
 
         await _userRepository.Update(user);
 
-        return await _userRepository.Get(u => u.id == _userId);
+        user = await _userRepository.Get(u => u.id == _userId);
+
+        return new UserResponse
+        {
+            Id = user.id.ToString(),
+            Name = user.name,
+            Email = user.email,
+            Password = user.password,
+            Active = user.active
+        };
     }
 }

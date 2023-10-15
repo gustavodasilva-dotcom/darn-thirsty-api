@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace DarnThirsty.Application.Commands;
+namespace DarnThirsty.Application.Commands.Account;
 
-public class UserAccountRequest
+public class AccountRequest
 {
     [Required]
     [JsonProperty("email")]

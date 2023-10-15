@@ -1,4 +1,5 @@
-using DarnThirsty.Application.Commands;
+using DarnThirsty.Application.Commands.Account;
+using DarnThirsty.Application.Commands.Global;
 using DarnThirsty.Application.Interfaces.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> RegisterFirstAccessAsync([FromBody] UserAccountRequest request)
+    public async Task<IActionResult> RegisterFirstAccessAsync([FromBody] AccountRequest request)
     {
         await _accountHandler.ExecuteFirstAccessAsync(request);
         return StatusCode(StatusCodes.Status201Created);
@@ -35,13 +36,13 @@ public class AccountController : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> AuthAsync([FromBody] UserAccountRequest request)
+    public async Task<IActionResult> AuthAsync([FromBody] AccountRequest request)
     {
         return Ok(await _accountHandler.ExecuteAuthAsync(request));
     }
 
     [HttpPut("update/{userId}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]

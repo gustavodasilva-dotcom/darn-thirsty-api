@@ -1,33 +1,36 @@
+using DarnThirsty.Core.Data;
 using DarnThirsty.Core.Entities;
+using DarnThirsty.Core.Enums;
 using MongoDB.Driver;
 
 namespace DarnThirsty.Infrastructure.Data.Seeders;
 
 public static class DrinkTypesSeeder
 {
-	public static void Run(IMongoCollection<DrinkType> drinkTypesCollection)
+	public static void Run(IMongoContext mongoContext)
 	{
 		try
 		{
-			void Seed(string _name)
+			void Seed(string name, int code)
 			{
-				var drinkType = drinkTypesCollection.FindSync(t => t.name.Equals(_name)).FirstOrDefault();
+				var drinkType = mongoContext.DrinkTypes.FindSync(t => t.name.Equals(name)).FirstOrDefault();
 
 				if (drinkType == null)
 				{
 					drinkType = new DrinkType
 					{
-						name = _name
+						code = code,
+						name = name
 					};
 
-					drinkTypesCollection.InsertOne(drinkType);
+					mongoContext.DrinkTypes.InsertOne(drinkType);
 				}
 			}
 
-			Seed("Beers");
-			Seed("Wines");
-			Seed("Distilled");
-			Seed("Cocktail");
+			Seed("Beers", (int)DrinkTypesEnum.Beers);
+			Seed("Wines", (int)DrinkTypesEnum.Wines);
+			Seed("Distilled", (int)DrinkTypesEnum.Distilled);
+			Seed("Cocktail", (int)DrinkTypesEnum.Cocktail);
 		}
 		catch (Exception e)
 		{

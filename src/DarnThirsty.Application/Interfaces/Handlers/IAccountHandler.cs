@@ -1,11 +1,10 @@
-using DarnThirsty.Application.Commands;
-using DarnThirsty.Core.Entities;
+using DarnThirsty.Application.Commands.Account;
 
 namespace DarnThirsty.Application.Interfaces.Handlers;
 
 public interface IAccountHandler
 {
-    Task ExecuteFirstAccessAsync(UserAccountRequest userAccountRequest);
-    Task<string> ExecuteAuthAsync(UserAccountRequest userAccountRequest);
-    Task<User> ExecuteUpdateAsync(string userId, UserRequest request);
+    Task ExecuteFirstAccessAsync(AccountRequest userAccountRequest);
+    Task<string> ExecuteAuthAsync(AccountRequest userAccountRequest);
+    Task<UserResponse> ExecuteUpdateAsync(string userId, UserRequest request);
 }

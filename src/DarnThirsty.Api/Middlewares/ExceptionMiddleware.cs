@@ -1,5 +1,5 @@
 using System.Text.Json;
-using DarnThirsty.Application.Commands;
+using DarnThirsty.Application.Commands.Global;
 using DarnThirsty.Core.Exceptions;
 
 namespace DarnThirsty.Api.Middlewares;
@@ -29,7 +29,9 @@ public class ExceptionMiddleware
     {
         context.Response.ContentType = "application/json";
         
-        if (exception is UnauthorizedAccessException)
+        if (exception is NoContentException)
+            context.Response.StatusCode = StatusCodes.Status204NoContent;
+        else if (exception is UnauthorizedAccessException)
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
         else if (exception is NotFoundException)
             context.Response.StatusCode = StatusCodes.Status404NotFound;
